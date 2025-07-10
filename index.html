@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مؤقت بومودورو لتنفيذ المهام</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f4f7f6;
+            margin: 0;
+            color: #333;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 90%;
+            max-width: 500px;
+            direction: rtl; /* لاتجاه النص العربي */
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 25px;
+            font-size: 2.2em;
+        }
+
+        h2 {
+            color: #34495e;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 1.6em;
+        }
+
+        /* Timer Section */
+        .timer-section {
+            background-color: #ecf0f1;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+
+        .timer-settings {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .timer-setting-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .timer-setting-item label {
+            font-size: 1.1em;
+            color: #555;
+            white-space: nowrap; /* منع الكلمة من النزول لسطر جديد */
+        }
+
+        .timer-setting-item input[type="number"] {
+            width: 70px;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+            text-align: center;
+        }
+
+        .timer-display {
+            font-size: 4em;
+            font-weight: bold;
+            color: #2980b9;
+            margin-bottom: 20px;
+        }
+
+        .timer-controls button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            margin: 0 8px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: background-color 0.3s ease;
+        }
+
+        .timer-controls button:hover {
+            background-color: #2980b9;
+        }
+
+        .timer-controls button:active {
+            background-color: #2471a3;
+        }
+
+        .timer-status {
+            margin-top: 20px;
+            font-size: 1.3em;
+            color: #7f8c8d;
+            font-weight: bold;
+        }
+
+        /* Tasks Section */
+        .task-input {
+            display: flex;
+            margin-bottom: 20px;
+        }
+
+        .task-input input[type="text"] {
+            flex-grow: 1;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1em;
+            margin-right: 10px;
+        }
+
+        .task-input button {
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s ease;
+        }
+
+        .task-input button:hover {
+            background-color: #229954;
+        }
+
+        #taskList {
+            list-style: none;
+            padding: 0;
+        }
+
+        #taskList li {
+            background-color: #fdfdfd;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s ease, background-color 0.2s ease;
+        }
+
+        #taskList li.completed {
+            background-color: #e6ffe6; /* لون أخضر فاتح للمهام المكتملة */
+            text-decoration: line-through;
+            color: #888;
+        }
+
+        #taskList li span.task-text {
+            flex-grow: 1;
+            text-align: right; /* لمحاذاة النص لليمين */
+            padding-left: 10px; /* مسافة عن زر الحذف */
+            font-size: 1.1em;
+        }
+
+        #taskList li .task-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        #taskList li .task-buttons button {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: background-color 0.3s ease;
+        }
+
+        #taskList li .task-buttons button:hover {
+            background-color: #c0392b;
+        }
+
+        #taskList li .task-buttons .complete-btn {
+            background-color: #f39c12; /* لون مختلف لزر الإكمال */
+        }
+
+        #taskList li .task-buttons .complete-btn:hover {
+            background-color: #e67e22;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>مؤقت بومودورو للمهام</h1>
+
+        <div class="timer-section">
+            <div class="timer-settings">
+                <div class="timer-setting-item">
+                    <label for="workTimeInput">وقت العمل (دقائق):</label>
+                    <input type="number" id="workTimeInput" value="25" min="1">
+                </div>
+                <div class="timer-setting-item">
+                    <label for="breakTimeInput">وقت الراحة (دقائق):</label>
+                    <input type="number" id="breakTimeInput" value="5" min="1">
+                </div>
+            </div>
+
+            <div class="timer-display" id="timerDisplay">25:00</div>
+            <div class="timer-controls">
+                <button id="startPauseButton">بدء</button>
+                <button id="resetButton">إعادة ضبط</button>
+                <button id="skipButton">تخطي</button>
+            </div>
+            <div class="timer-status" id="timerStatus">وقت العمل</div>
+        </div>
+
+        <div class="tasks-section">
+            <h2>المهام</h2>
+            <div class="task-input">
+                <input type="text" id="newTaskInput" placeholder="أدخل مهمة جديدة...">
+                <button id="addTaskButton">إضافة مهمة</button>
+            </div>
+            <ul id="taskList">
+                </ul>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const timerDisplay = document.getElementById('timerDisplay');
+            const startPauseButton = document.getElementById('startPauseButton');
+            const resetButton = document.getElementById('resetButton');
+            const skipButton = document.getElementById('skipButton');
+            const timerStatus = document.getElementById('timerStatus');
+            const newTaskInput = document.getElementById('newTaskInput');
+            const addTaskButton = document.getElementById('addTaskButton');
+            const taskList = document.getElementById('taskList');
+            const workTimeInput = document.getElementById('workTimeInput');
+            const breakTimeInput = document.getElementById('breakTimeInput');
+
+            // تحميل الإعدادات من التخزين المحلي أو استخدام الافتراضيات
+            let WORK_TIME = parseInt(localStorage.getItem('pomodoroWorkTime')) || 25;
+            let BREAK_TIME = parseInt(localStorage.getItem('pomodoroBreakTime')) || 5;
+
+            let currentTime;
+            let isRunning = false;
+            let timerInterval;
+            let isWorkTime = true; // true = وقت عمل, false = وقت راحة
+            let tasks = JSON.parse(localStorage.getItem('pomodoroTasks')) || []; // تحميل المهام من التخزين المحلي
+
+            // تحديث قيم حقول الإدخال بالإعدادات المحملة
+            workTimeInput.value = WORK_TIME;
+            breakTimeInput.value = BREAK_TIME;
+
+            // ضبط الوقت الحالي بناءً على نوع الفترة والإعدادات
+            function setInitialTime() {
+                currentTime = isWorkTime ? WORK_TIME * 60 : BREAK_TIME * 60;
+                updateTimerDisplay();
+            }
+
+            // --- وظائف المؤقت ---
+
+            function updateTimerDisplay() {
+                const minutes = Math.floor(currentTime / 60);
+                const seconds = currentTime % 60;
+                timerDisplay.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            }
+
+            function startTimer() {
+                if (!isRunning) {
+                    isRunning = true;
+                    startPauseButton.textContent = 'إيقاف مؤقت';
+                    timerInterval = setInterval(() => {
+                        currentTime--;
+                        updateTimerDisplay();
+
+                        if (currentTime <= 0) {
+                            clearInterval(timerInterval);
+                            isRunning = false;
+                            startPauseButton.textContent = 'بدء';
+                            playAlarmSound(); // تشغيل صوت عند انتهاء الوقت
+                            toggleTimerMode(); // التبديل بين وقت العمل والراحة
+                        }
+                    }, 1000);
+                } else {
+                    pauseTimer();
+                }
+            }
+
+            function pauseTimer() {
+                clearInterval(timerInterval);
+                isRunning = false;
+                startPauseButton.textContent = 'استئناف';
+            }
+
+            function resetTimer() {
+                clearInterval(timerInterval);
+                isRunning = false;
+                startPauseButton.textContent = 'بدء';
+                isWorkTime = true; // العودة إلى وقت العمل الافتراضي
+                timerStatus.textContent = 'وقت العمل';
+                setInitialTime(); // إعادة ضبط الوقت الحالي بناءً على الإعدادات
+            }
+
+            function toggleTimerMode() {
+                clearInterval(timerInterval); // إيقاف المؤقت الحالي قبل التبديل
+                isRunning = false; // لضمان البدء بـ "بدء" بعد التخطي
+                startPauseButton.textContent = 'بدء';
+
+                isWorkTime = !isWorkTime;
+                if (isWorkTime) {
+                    timerStatus.textContent = 'وقت العمل';
+                } else {
+                    timerStatus.textContent = 'وقت الراحة';
+                }
+                setInitialTime(); // ضبط الوقت للفترة الجديدة
+                // لا نبدأ المؤقت تلقائيا هنا بعد التخطي، يفضل أن يبدأ المستخدم يدوياً
+                // إذا أردت البدء تلقائيا بعد التخطي: startTimer();
+            }
+
+            function playAlarmSound() {
+                const audio = new Audio('https://www.soundjay.com/buttons/beep-07.mp3'); // مثال لصوت تنبيه
+                audio.play();
+            }
+
+            // --- وظائف إدارة المهام ---
+
+            function saveTasks() {
+                localStorage.setItem('pomodoroTasks', JSON.stringify(tasks));
+            }
+
+            function renderTasks() {
+                taskList.innerHTML = ''; // مسح القائمة الحالية
+                tasks.forEach((task, index) => {
+                    const listItem = document.createElement('li');
+                    if (task.completed) {
+                        listItem.classList.add('completed');
+                    }
+                    listItem.dataset.index = index; // لحفظ فهرس المهمة
+
+                    const taskTextSpan = document.createElement('span');
+                    taskTextSpan.classList.add('task-text');
+                    taskTextSpan.textContent = task.text;
+
+                    const taskButtonsDiv = document.createElement('div');
+                    taskButtonsDiv.classList.add('task-buttons');
+
+                    const completeButton = document.createElement('button');
+                    completeButton.classList.add('complete-btn');
+                    completeButton.textContent = task.completed ? 'غير مكتملة' : 'إكمال';
+                    completeButton.addEventListener('click', () => toggleTaskCompletion(index));
+
+                    const deleteButton = document.createElement('button');
+                    deleteButton.textContent = 'حذف';
+                    deleteButton.addEventListener('click', () => deleteTask(index));
+
+                    taskButtonsDiv.appendChild(completeButton);
+                    taskButtonsDiv.appendChild(deleteButton);
+
+                    listItem.appendChild(taskTextSpan);
+                    listItem.appendChild(taskButtonsDiv);
+                    taskList.appendChild(listItem);
+                });
+            }
+
+            function addTask() {
+                const taskText = newTaskInput.value.trim();
+                if (taskText) {
+                    tasks.push({ text: taskText, completed: false });
+                    newTaskInput.value = '';
+                    saveTasks();
+                    renderTasks();
+                }
+            }
+
+            function toggleTaskCompletion(index) {
+                tasks[index].completed = !tasks[index].completed;
+                saveTasks();
+                renderTasks();
+            }
+
+            function deleteTask(index) {
+                tasks.splice(index, 1); // حذف المهمة من المصفوفة
+                saveTasks();
+                renderTasks();
+            }
+
+            // --- ربط الأحداث بالأزرار وحقول الإدخال ---
+
+            startPauseButton.addEventListener('click', startTimer);
+            resetButton.addEventListener('click', resetTimer);
+            skipButton.addEventListener('click', toggleTimerMode);
+
+            addTaskButton.addEventListener('click', addTask);
+            newTaskInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    addTask();
+                }
+            });
+
+            // الأحداث لتغيير أوقات المؤقت وحفظها
+            workTimeInput.addEventListener('change', () => {
+                const newWorkTime = parseInt(workTimeInput.value);
+                if (!isNaN(newWorkTime) && newWorkTime > 0) {
+                    WORK_TIME = newWorkTime;
+                    localStorage.setItem('pomodoroWorkTime', WORK_TIME);
+                    // إذا كان المؤقت في وضع العمل ولم يكن يعمل، قم بإعادة ضبطه
+                    if (isWorkTime && !isRunning) {
+                        resetTimer();
+                    }
+                } else {
+                    workTimeInput.value = WORK_TIME; // إعادة القيمة القديمة إذا كان الإدخال غير صالح
+                }
+            });
+
+            breakTimeInput.addEventListener('change', () => {
+                const newBreakTime = parseInt(breakTimeInput.value);
+                if (!isNaN(newBreakTime) && newBreakTime > 0) {
+                    BREAK_TIME = newBreakTime;
+                    localStorage.setItem('pomodoroBreakTime', BREAK_TIME);
+                    // إذا كان المؤقت في وضع الراحة ولم يكن يعمل، قم بإعادة ضبطه
+                    if (!isWorkTime && !isRunning) {
+                        resetTimer();
+                    }
+                } else {
+                    breakTimeInput.value = BREAK_TIME; // إعادة القيمة القديمة إذا كان الإدخال غير صالح
+                }
+            });
+
+            // --- التهيئة عند التحميل ---
+            setInitialTime(); // ضبط الوقت الأولي بناءً على الإعدادات المحملة
+            renderTasks(); // عرض المهام المحفوظة عند تحميل الصفحة
+        });
+    </script>
+</body>
+</html>
