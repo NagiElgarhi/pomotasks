@@ -3,171 +3,305 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مؤقت بومودورو لتنفيذ المهام</title>
+    <title>Lord of the Tasks - مؤقت بومودورو لتنفيذ المهام</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@400;700&display=swap');
+        
+        :root {
+            /* Updated Color Palette for a youthful, summer feel */
+            --light-blue: #ADD8E6; /* Light Blue for sky/sea */
+            --mid-green: #90EE90; /* Light Green for trees */
+            --sandy-yellow: #F0E68C; /* Sandy Yellow for warmth/sun */
+            --deep-blue: #4682B4; /* Steel Blue for accents/deep sea */
+            --dark-contrast: #2C3E50; /* Darker blue-grey for text contrast */
+            --text-light: #F8F8F8; /* Lighter text for dark backgrounds */
+            --text-dark: #333333; /* Darker text for light backgrounds */
+
+            --accent-color: var(--deep-blue); /* Main accent */
+            --accent-light: #5CACEE; /* Lighter accent */
+
+            /* Define RGB values for CSS variables for easier rgba usage */
+            --light-blue-rgb: 173, 216, 230;
+            --mid-green-rgb: 144, 238, 144;
+            --sandy-yellow-rgb: 240, 230, 140;
+            --deep-blue-rgb: 70, 130, 180;
+            --dark-contrast-rgb: 44, 62, 80;
+        }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Cinzel', serif; /* Apply Cinzel to all body text */
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background-color: #f4f7f6;
             margin: 0;
-            color: #333;
+            color: var(--text-light); /* Default text color for body */
+            flex-direction: column;
+            
+            /* Four-part gradient background */
+            background: linear-gradient(to bottom,
+                #87CEEB 0%, #B0E0E6 25%, /* Sky with light clouds */
+                #4682B4 25%, #1E90FF 50%, /* Deep Sea Blue */
+                #F0E68C 50%, #DAA520 75%, /* Beach Sand */
+                #32CD32 75%, #228B22 100% /* Trees Green */
+            );
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            position: relative; /* For the overlay */
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4); /* Dark overlay for better readability */
+            z-index: 0;
         }
 
         .container {
-            background-color: #fff;
+            background-color: rgba(255, 255, 255, 0.15); /* Lighter, semi-transparent background */
+            backdrop-filter: blur(10px); /* Frosted glass effect */
             padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            border-radius: 16px;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
             text-align: center;
             width: 90%;
             max-width: 500px;
-            direction: rtl; /* لاتجاه النص العربي */
+            direction: rtl;
+            border: 1px solid rgba(255, 255, 255, 0.3); /* Lighter border */
+            z-index: 1; /* Bring container above the overlay */
         }
 
-        h1 {
-            color: #2c3e50;
-            margin-bottom: 25px;
-            font-size: 2.2em;
+        .app-title {
+            font-family: 'Cinzel Decorative', cursive; /* Keep Cinzel Decorative for title */
+            color: var(--sandy-yellow); /* Gold-like for title */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+            background: linear-gradient(to right, #d4af37, #f9d423, #d4af37);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
         }
 
         h2 {
-            color: #34495e;
+            color: var(--accent-light); /* Lighter blue accent */
             margin-top: 30px;
             margin-bottom: 15px;
             font-size: 1.6em;
+            font-family: 'Cinzel', serif; /* Keep Cinzel for headings */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
 
-        /* Timer Section */
+        h2 .icon {
+            width: 28px;
+            height: 28px;
+            filter: drop-shadow(0 0 3px rgba(0,0,0,0.3));
+        }
+
+        /* Modern Timer Section */
         .timer-section {
-            background-color: #ecf0f1;
+            background-color: rgba(var(--light-blue-rgb), 0.2); /* Lighter, more transparent */
             padding: 25px;
-            border-radius: 10px;
+            border-radius: 12px;
             margin-bottom: 30px;
+            border: 1px solid rgba(var(--light-blue-rgb), 0.5); /* Lighter border */
+            position: relative;
+            overflow: hidden;
+            color: var(--text-dark); /* Darker text for this section's background */
+        }
+
+        .timer-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(var(--deep-blue-rgb),0.1) 0%, rgba(0,0,0,0) 70%);
+            z-index: 0;
         }
 
         .timer-settings {
-            margin-bottom: 20px;
+            margin-top: 25px; /* Adjusted margin */
+            margin-bottom: 25px;
             display: flex;
             justify-content: center;
-            gap: 20px;
+            gap: 25px;
             flex-wrap: wrap;
+            z-index: 1;
+            position: relative;
         }
 
         .timer-setting-item {
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 10px;
+            background: rgba(var(--mid-green-rgb), 0.3); /* Greenish tint for settings */
+            padding: 8px 15px;
+            border-radius: 8px;
+            border: 1px solid rgba(var(--mid-green-rgb), 0.5); /* Lighter border */
+            color: var(--text-dark); /* Darker text for this section */
         }
 
         .timer-setting-item label {
             font-size: 1.1em;
-            color: #555;
-            white-space: nowrap; /* منع الكلمة من النزول لسطر جديد */
+            color: var(--text-dark); /* Use dark text against light background */
+            font-family: 'Cinzel', serif; /* Apply Cinzel */
+            white-space: nowrap;
         }
 
         .timer-setting-item input[type="number"] {
-            width: 70px;
+            width: 60px;
             padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
+            border: 1px solid rgba(var(--mid-green-rgb), 0.7);
+            border-radius: 6px;
             font-size: 1em;
             text-align: center;
+            background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent white */
+            color: var(--text-dark);
+            font-family: 'Cinzel', serif; /* Apply Cinzel */
         }
 
         .timer-display {
-            font-size: 4em;
+            font-size: 4.5em;
             font-weight: bold;
-            color: #2980b9;
-            margin-bottom: 20px;
+            color: var(--accent-color); /* Deep blue for timer */
+            margin-bottom: 25px;
+            font-family: 'Cinzel', serif; /* Apply Cinzel */
+            text-shadow: 0 0 10px rgba(var(--deep-blue-rgb), 0.5);
+            position: relative;
+            z-index: 1;
+        }
+
+        .timer-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            z-index: 1;
+            position: relative;
         }
 
         .timer-controls button {
-            background-color: #3498db;
-            color: white;
+            background-color: var(--deep-blue); /* Deep blue for buttons */
+            color: var(--text-light);
             border: none;
             padding: 12px 25px;
-            margin: 0 8px;
             border-radius: 8px;
             cursor: pointer;
             font-size: 1.1em;
-            transition: background-color 0.3s ease;
+            transition: all 0.3s ease;
+            font-family: 'Cinzel', serif; /* Apply Cinzel */
+            min-width: 120px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
         }
 
         .timer-controls button:hover {
-            background-color: #2980b9;
+            background-color: var(--accent-light); /* Lighter blue on hover */
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
         }
 
         .timer-controls button:active {
-            background-color: #2471a3;
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
 
         .timer-status {
             margin-top: 20px;
             font-size: 1.3em;
-            color: #7f8c8d;
+            color: var(--dark-contrast); /* Darker text for status */
             font-weight: bold;
+            font-family: 'Cinzel', serif; /* Apply Cinzel */
+            position: relative;
+            z-index: 1;
         }
 
         /* Tasks Section */
+        .tasks-section {
+            margin-bottom: 30px; /* Add margin below tasks section */
+        }
         .task-input {
             display: flex;
             margin-bottom: 20px;
+            gap: 10px;
         }
 
         .task-input input[type="text"] {
             flex-grow: 1;
             padding: 12px;
-            border: 1px solid #ddd;
+            border: 1px solid rgba(var(--sandy-yellow-rgb), 0.7);
             border-radius: 8px;
             font-size: 1em;
-            margin-right: 10px;
+            background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent white */
+            color: var(--text-dark);
+            font-family: 'Cinzel', serif; /* Apply Cinzel */
         }
 
         .task-input button {
-            background-color: #27ae60;
-            color: white;
+            background-color: var(--sandy-yellow); /* Sandy yellow for add task button */
+            color: var(--text-dark); /* Dark text on light button */
             border: none;
             padding: 12px 20px;
             border-radius: 8px;
             cursor: pointer;
             font-size: 1em;
-            transition: background-color 0.3s ease;
+            transition: all 0.3s ease;
+            font-family: 'Cinzel', serif; /* Apply Cinzel */
         }
 
         .task-input button:hover {
-            background-color: #229954;
+            background-color: #FFD700; /* Gold on hover */
+            transform: translateY(-2px);
         }
 
         #taskList {
             list-style: none;
             padding: 0;
+            max-height: 200px; /* Limit height for scroll if many tasks */
+            overflow-y: auto; /* Enable scrolling */
+            color: var(--text-dark); /* Darker text for task list */
         }
 
         #taskList li {
-            background-color: #fdfdfd;
+            background-color: rgba(var(--mid-green-rgb), 0.1); /* Very light green for task items */
             padding: 15px;
             margin-bottom: 10px;
             border-radius: 8px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-            transition: transform 0.2s ease, background-color 0.2s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(var(--mid-green-rgb), 0.3); /* Lighter border */
+            font-family: 'Cinzel', serif; /* Apply Cinzel */
+        }
+
+        #taskList li:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
 
         #taskList li.completed {
-            background-color: #e6ffe6; /* لون أخضر فاتح للمهام المكتملة */
+            background-color: rgba(var(--mid-green-rgb), 0.5); /* More opaque green when completed */
             text-decoration: line-through;
-            color: #888;
+            color: var(--dark-contrast); /* Darker grey for completed tasks */
+            border-color: rgba(var(--mid-green-rgb), 0.7);
         }
 
         #taskList li span.task-text {
             flex-grow: 1;
-            text-align: right; /* لمحاذاة النص لليمين */
-            padding-left: 10px; /* مسافة عن زر الحذف */
+            text-align: right;
+            padding-left: 10px;
             font-size: 1.1em;
         }
 
@@ -177,44 +311,131 @@
         }
 
         #taskList li .task-buttons button {
-            background-color: #e74c3c;
-            color: white;
+            background-color: var(--deep-blue); /* Deep blue for task action buttons */
+            color: var(--text-light);
             border: none;
             padding: 8px 12px;
             border-radius: 5px;
             cursor: pointer;
             font-size: 0.9em;
-            transition: background-color 0.3s ease;
+            transition: all 0.3s ease;
+            font-family: 'Cinzel', serif; /* Apply Cinzel */
         }
 
         #taskList li .task-buttons button:hover {
-            background-color: #c0392b;
+            background-color: var(--accent-light);
         }
 
         #taskList li .task-buttons .complete-btn {
-            background-color: #f39c12; /* لون مختلف لزر الإكمال */
+            background-color: var(--mid-green); /* Mid green for complete button */
+            color: var(--text-dark);
         }
 
         #taskList li .task-buttons .complete-btn:hover {
-            background-color: #e67e22;
+            background-color: #7CFC00; /* Lime green on hover */
+        }
+
+        /* Footer Styles - now inside the container */
+        .footer {
+            margin-top: 30px;
+            text-align: center;
+            font-family: 'Cinzel Decorative', cursive; /* Keep Cinzel Decorative for footer */
+            color: var(--dark-contrast); /* Darker text for footer */
+            font-size: 0.9em;
+            direction: ltr;
+            width: 100%;
+            padding: 20px 0 0; /* Adjusted padding */
+            border-top: 1px solid rgba(var(--sandy-yellow-rgb), 0.5); /* Separator line */
+        }
+
+        .footer .copyright {
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+            font-size: 1.3em; /* Increased by 30% (0.9 * 1.3 = 1.17em, rounded to 1.3 for simplicity) */
+        }
+
+        .footer .contact {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-family: 'Cinzel', serif; /* Apply Cinzel */
+        }
+
+        .footer .whatsapp-link {
+            text-decoration: none;
+            color: #000000; /* Black color for the link text */
+            font-weight: bold; /* Make the text bold */
+            font-size: 1.2em; /* Increase font size by 30% (original 0.9em from .footer, now 0.9 * 1.3 = 1.17em, rounded up to 1.2em) */
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'Cinzel', serif;
+        }
+
+        .footer .whatsapp-icon {
+            width: 20px;
+            height: 20px;
+            vertical-align: middle;
+            filter: drop-shadow(0 0 2px rgba(37, 211, 102, 0.7));
+        }
+
+        .nagiz-z {
+            font-size: 200%;
+            /* Updated gradient for Z */
+            background: linear-gradient(to right, #FFA500, #FFD700); /* Orange to Gold */
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: inline-block;
+            transform: translateY(5px);
+        }
+
+        /* Modern circular progress indicator */
+        .timer-progress {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.1;
+        }
+
+        .timer-progress-circle {
+            fill: none;
+            stroke: var(--deep-blue); /* Progress circle in deep blue */
+            stroke-width: 2;
+            stroke-dasharray: 628;
+            stroke-dashoffset: 628;
+            transform-origin: center;
+            transform: rotate(-90deg);
+            transition: stroke-dashoffset 1s linear;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>مؤقت بومودورو للمهام</h1>
+        <div class="app-title">Lord of the Tasks</div>
+
+        <div class="tasks-section">
+            <h2>
+                <img src="https://api.iconify.design/material-symbols:checklist.svg?color=%235CACEE" alt="Tasks Icon" class="icon">
+                المهام
+                <img src="https://api.iconify.design/material-symbols:rocket-launch.svg?color=%23F0E68C" alt="Ambition Icon" class="icon">
+            </h2>
+            <div class="task-input">
+                <input type="text" id="newTaskInput" placeholder="أدخل مهمة جديدة...">
+                <button id="addTaskButton">إضافة مهمة</button>
+            </div>
+            <ul id="taskList">
+                </ul>
+        </div>
 
         <div class="timer-section">
-            <div class="timer-settings">
-                <div class="timer-setting-item">
-                    <label for="workTimeInput">وقت العمل (دقائق):</label>
-                    <input type="number" id="workTimeInput" value="25" min="1">
-                </div>
-                <div class="timer-setting-item">
-                    <label for="breakTimeInput">وقت الراحة (دقائق):</label>
-                    <input type="number" id="breakTimeInput" value="5" min="1">
-                </div>
-            </div>
+            <svg class="timer-progress" viewBox="0 0 200 200">
+                <circle class="timer-progress-circle" cx="100" cy="100" r="100"></circle>
+            </svg>
 
             <div class="timer-display" id="timerDisplay">25:00</div>
             <div class="timer-controls">
@@ -223,16 +444,29 @@
                 <button id="skipButton">تخطي</button>
             </div>
             <div class="timer-status" id="timerStatus">وقت العمل</div>
+            
+            <div class="timer-settings">
+                <div class="timer-setting-item">
+                    <label for="workTimeInput">وقت العمل:</label>
+                    <input type="number" id="workTimeInput" value="25" min="1">
+                    <span>دقيقة</span>
+                </div>
+                <div class="timer-setting-item">
+                    <label for="breakTimeInput">وقت الراحة:</label>
+                    <input type="number" id="breakTimeInput" value="5" min="1">
+                    <span>دقيقة</span>
+                </div>
+            </div>
         </div>
 
-        <div class="tasks-section">
-            <h2>المهام</h2>
-            <div class="task-input">
-                <input type="text" id="newTaskInput" placeholder="أدخل مهمة جديدة...">
-                <button id="addTaskButton">إضافة مهمة</button>
+        <div class="footer">
+            <div class="copyright">Nagi<span class="nagiz-z">Z</span> Smart Solution - NSS - 2025 ©</div>
+            <div class="contact">
+                <a href="https://wa.me/00201066802250" target="_blank" class="whatsapp-link">
+                    للتواصل: عبر واتساب 00201066802250
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" class="whatsapp-icon">
+                </a>
             </div>
-            <ul id="taskList">
-                </ul>
         </div>
     </div>
 
@@ -248,28 +482,115 @@
             const taskList = document.getElementById('taskList');
             const workTimeInput = document.getElementById('workTimeInput');
             const breakTimeInput = document.getElementById('breakTimeInput');
+            const progressCircle = document.querySelector('.timer-progress-circle');
 
-            // تحميل الإعدادات من التخزين المحلي أو استخدام الافتراضيات
+            // IndexedDB variables
+            let db;
+            const DB_NAME = 'PomodoroTasksDB';
+            const DB_VERSION = 1;
+            const STORE_NAME = 'tasks';
+
+            // Open (or create) the IndexedDB database
+            function openDB() {
+                return new Promise((resolve, reject) => {
+                    const request = indexedDB.open(DB_NAME, DB_VERSION);
+
+                    request.onupgradeneeded = function(event) {
+                        db = event.target.result;
+                        if (!db.objectStoreNames.contains(STORE_NAME)) {
+                            // Create object store with auto-incrementing key
+                            db.createObjectStore(STORE_NAME, { keyPath: 'id', autoIncrement: true });
+                        }
+                    };
+
+                    request.onsuccess = function(event) {
+                        db = event.target.result;
+                        console.log('IndexedDB opened successfully');
+                        resolve(db);
+                    };
+
+                    request.onerror = function(event) {
+                        console.error('IndexedDB error:', event.target.errorCode);
+                        reject(event.target.errorCode);
+                    };
+                });
+            }
+
+            // Save tasks to IndexedDB
+            async function saveTasksToDB(tasksToSave) {
+                if (!db) {
+                    await openDB(); // Ensure DB is open before trying to save
+                }
+                const transaction = db.transaction([STORE_NAME], 'readwrite');
+                const store = transaction.objectStore(STORE_NAME);
+                
+                // Clear existing tasks and add current ones
+                const clearRequest = store.clear();
+                clearRequest.onsuccess = () => {
+                    tasksToSave.forEach(task => {
+                        // If task has an ID, use put (update/add); otherwise, use add
+                        if (task.id) {
+                            store.put(task);
+                        } else {
+                            store.add(task);
+                        }
+                    });
+                };
+                clearRequest.onerror = (event) => console.error('Error clearing store:', event.target.error);
+
+                transaction.oncomplete = () => console.log('Tasks saved to IndexedDB');
+                transaction.onerror = (event) => console.error('Transaction error:', event.target.error);
+            }
+
+            // Load tasks from IndexedDB
+            async function loadTasksFromDB() {
+                return new Promise(async (resolve, reject) => {
+                    if (!db) {
+                        await openDB(); // Ensure DB is open before trying to load
+                    }
+                    const transaction = db.transaction([STORE_NAME], 'readonly');
+                    const store = transaction.objectStore(STORE_NAME);
+                    const request = store.getAll();
+
+                    request.onsuccess = function(event) {
+                        resolve(event.target.result);
+                    };
+
+                    request.onerror = function(event) {
+                        console.error('Error loading tasks from IndexedDB:', event.target.error);
+                        reject(event.target.error);
+                    };
+                });
+            }
+
+            // Load settings from localStorage or use defaults
             let WORK_TIME = parseInt(localStorage.getItem('pomodoroWorkTime')) || 25;
             let BREAK_TIME = parseInt(localStorage.getItem('pomodoroBreakTime')) || 5;
 
             let currentTime;
             let isRunning = false;
             let timerInterval;
-            let isWorkTime = true; // true = وقت عمل, false = وقت راحة
-            let tasks = JSON.parse(localStorage.getItem('pomodoroTasks')) || []; // تحميل المهام من التخزين المحلي
+            let isWorkTime = true;
+            let tasks = []; // Tasks will be loaded from IndexedDB
+            let totalTime = WORK_TIME * 60;
+            let circleCircumference = 2 * Math.PI * 100; // 2 * π * r (where r=100 from viewBox)
 
-            // تحديث قيم حقول الإدخال بالإعدادات المحملة
+            // Update input fields with loaded settings
             workTimeInput.value = WORK_TIME;
             breakTimeInput.value = BREAK_TIME;
 
-            // ضبط الوقت الحالي بناءً على نوع الفترة والإعدادات
+            // Set initial time based on period type and settings
             function setInitialTime() {
                 currentTime = isWorkTime ? WORK_TIME * 60 : BREAK_TIME * 60;
+                totalTime = currentTime;
                 updateTimerDisplay();
+                updateProgressCircle();
             }
 
-            // --- وظائف المؤقت ---
+            function updateProgressCircle() {
+                const progress = ((totalTime - currentTime) / totalTime) * circleCircumference;
+                progressCircle.style.strokeDashoffset = circleCircumference - progress;
+            }
 
             function updateTimerDisplay() {
                 const minutes = Math.floor(currentTime / 60);
@@ -284,13 +605,14 @@
                     timerInterval = setInterval(() => {
                         currentTime--;
                         updateTimerDisplay();
+                        updateProgressCircle();
 
                         if (currentTime <= 0) {
                             clearInterval(timerInterval);
                             isRunning = false;
                             startPauseButton.textContent = 'بدء';
-                            playAlarmSound(); // تشغيل صوت عند انتهاء الوقت
-                            toggleTimerMode(); // التبديل بين وقت العمل والراحة
+                            playAlarmSound();
+                            toggleTimerMode();
                         }
                     }, 1000);
                 } else {
@@ -308,14 +630,14 @@
                 clearInterval(timerInterval);
                 isRunning = false;
                 startPauseButton.textContent = 'بدء';
-                isWorkTime = true; // العودة إلى وقت العمل الافتراضي
+                isWorkTime = true;
                 timerStatus.textContent = 'وقت العمل';
-                setInitialTime(); // إعادة ضبط الوقت الحالي بناءً على الإعدادات
+                setInitialTime();
             }
 
             function toggleTimerMode() {
-                clearInterval(timerInterval); // إيقاف المؤقت الحالي قبل التبديل
-                isRunning = false; // لضمان البدء بـ "بدء" بعد التخطي
+                clearInterval(timerInterval);
+                isRunning = false;
                 startPauseButton.textContent = 'بدء';
 
                 isWorkTime = !isWorkTime;
@@ -324,30 +646,27 @@
                 } else {
                     timerStatus.textContent = 'وقت الراحة';
                 }
-                setInitialTime(); // ضبط الوقت للفترة الجديدة
-                // لا نبدأ المؤقت تلقائيا هنا بعد التخطي، يفضل أن يبدأ المستخدم يدوياً
-                // إذا أردت البدء تلقائيا بعد التخطي: startTimer();
+                setInitialTime();
             }
 
             function playAlarmSound() {
-                const audio = new Audio('https://www.soundjay.com/buttons/beep-07.mp3'); // مثال لصوت تنبيه
+                const audio = new Audio('https://www.soundjay.com/buttons/beep-07.mp3');
                 audio.play();
             }
 
-            // --- وظائف إدارة المهام ---
-
-            function saveTasks() {
-                localStorage.setItem('pomodoroTasks', JSON.stringify(tasks));
+            // --- Task Management Functions ---
+            async function saveTasks() {
+                await saveTasksToDB(tasks);
             }
 
             function renderTasks() {
-                taskList.innerHTML = ''; // مسح القائمة الحالية
-                tasks.forEach((task, index) => {
+                taskList.innerHTML = '';
+                tasks.forEach((task) => {
                     const listItem = document.createElement('li');
                     if (task.completed) {
                         listItem.classList.add('completed');
                     }
-                    listItem.dataset.index = index; // لحفظ فهرس المهمة
+                    listItem.dataset.id = task.id; // Use task.id for IndexedDB
 
                     const taskTextSpan = document.createElement('span');
                     taskTextSpan.classList.add('task-text');
@@ -359,11 +678,11 @@
                     const completeButton = document.createElement('button');
                     completeButton.classList.add('complete-btn');
                     completeButton.textContent = task.completed ? 'غير مكتملة' : 'إكمال';
-                    completeButton.addEventListener('click', () => toggleTaskCompletion(index));
+                    completeButton.addEventListener('click', () => toggleTaskCompletion(task.id));
 
                     const deleteButton = document.createElement('button');
                     deleteButton.textContent = 'حذف';
-                    deleteButton.addEventListener('click', () => deleteTask(index));
+                    deleteButton.addEventListener('click', () => deleteTask(task.id));
 
                     taskButtonsDiv.appendChild(completeButton);
                     taskButtonsDiv.appendChild(deleteButton);
@@ -374,30 +693,64 @@
                 });
             }
 
-            function addTask() {
+            async function addTask() {
                 const taskText = newTaskInput.value.trim();
                 if (taskText) {
-                    tasks.push({ text: taskText, completed: false });
-                    newTaskInput.value = '';
-                    saveTasks();
-                    renderTasks();
+                    // IndexedDB will assign the ID upon adding
+                    const newTask = { text: taskText, completed: false, timestamp: Date.now() }; 
+                    
+                    if (!db) { // Ensure db is initialized before proceeding
+                        await openDB();
+                    }
+                    const transaction = db.transaction([STORE_NAME], 'readwrite');
+                    const store = transaction.objectStore(STORE_NAME);
+                    const request = store.add(newTask);
+
+                    request.onsuccess = async (event) => {
+                        // After successful add, reload all tasks to get the new ID
+                        newTaskInput.value = '';
+                        await loadAndRenderTasks();
+                    };
+                    request.onerror = (event) => console.error('Error adding task:', event.target.error);
                 }
             }
 
-            function toggleTaskCompletion(index) {
-                tasks[index].completed = !tasks[index].completed;
-                saveTasks();
+            async function toggleTaskCompletion(id) {
+                const taskIndex = tasks.findIndex(task => task.id === id);
+                if (taskIndex !== -1) {
+                    tasks[taskIndex].completed = !tasks[taskIndex].completed;
+                    tasks[taskIndex].completionDate = tasks[taskIndex].completed ? Date.now() : null; // Add/remove completion date
+                    
+                    if (!db) await openDB();
+                    const transaction = db.transaction([STORE_NAME], 'readwrite');
+                    const store = transaction.objectStore(STORE_NAME);
+                    store.put(tasks[taskIndex]); // Use put to update existing task
+                    
+                    transaction.oncomplete = () => renderTasks();
+                    transaction.onerror = (event) => console.error('Error updating task:', event.target.error);
+                }
+            }
+
+            async function deleteTask(id) {
+                if (!db) await openDB();
+                const transaction = db.transaction([STORE_NAME], 'readwrite');
+                const store = transaction.objectStore(STORE_NAME);
+                const request = store.delete(id);
+
+                request.onsuccess = async () => {
+                    // Filter out the deleted task from local array and re-render
+                    tasks = tasks.filter(task => task.id !== id);
+                    renderTasks();
+                };
+                request.onerror = (event) => console.error('Error deleting task:', event.target.error);
+            }
+
+            async function loadAndRenderTasks() {
+                tasks = await loadTasksFromDB();
                 renderTasks();
             }
 
-            function deleteTask(index) {
-                tasks.splice(index, 1); // حذف المهمة من المصفوفة
-                saveTasks();
-                renderTasks();
-            }
-
-            // --- ربط الأحداث بالأزرار وحقول الإدخال ---
-
+            // --- Event Listeners ---
             startPauseButton.addEventListener('click', startTimer);
             resetButton.addEventListener('click', resetTimer);
             skipButton.addEventListener('click', toggleTimerMode);
@@ -409,18 +762,16 @@
                 }
             });
 
-            // الأحداث لتغيير أوقات المؤقت وحفظها
             workTimeInput.addEventListener('change', () => {
                 const newWorkTime = parseInt(workTimeInput.value);
                 if (!isNaN(newWorkTime) && newWorkTime > 0) {
                     WORK_TIME = newWorkTime;
                     localStorage.setItem('pomodoroWorkTime', WORK_TIME);
-                    // إذا كان المؤقت في وضع العمل ولم يكن يعمل، قم بإعادة ضبطه
                     if (isWorkTime && !isRunning) {
                         resetTimer();
                     }
                 } else {
-                    workTimeInput.value = WORK_TIME; // إعادة القيمة القديمة إذا كان الإدخال غير صالح
+                    workTimeInput.value = WORK_TIME;
                 }
             });
 
@@ -429,18 +780,21 @@
                 if (!isNaN(newBreakTime) && newBreakTime > 0) {
                     BREAK_TIME = newBreakTime;
                     localStorage.setItem('pomodoroBreakTime', BREAK_TIME);
-                    // إذا كان المؤقت في وضع الراحة ولم يكن يعمل، قم بإعادة ضبطه
                     if (!isWorkTime && !isRunning) {
                         resetTimer();
                     }
                 } else {
-                    breakTimeInput.value = BREAK_TIME; // إعادة القيمة القديمة إذا كان الإدخال غير صالح
+                    breakTimeInput.value = BREAK_TIME;
                 }
             });
 
-            // --- التهيئة عند التحميل ---
-            setInitialTime(); // ضبط الوقت الأولي بناءً على الإعدادات المحملة
-            renderTasks(); // عرض المهام المحفوظة عند تحميل الصفحة
+            // --- Initialization on Load ---
+            async function init() {
+                await openDB(); // Open database first
+                await loadAndRenderTasks(); // Then load tasks
+                setInitialTime();
+            }
+            init();
         });
     </script>
 </body>
