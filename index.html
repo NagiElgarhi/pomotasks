@@ -62,25 +62,41 @@
             z-index: 0;
         }
 
+        /* Container for Mobile-like Dimensions */
         .container {
             background-color: rgba(255, 255, 255, 0.15); /* Lighter, semi-transparent background */
             backdrop-filter: blur(10px); /* Frosted glass effect */
-            padding: 30px;
+            padding: 20px; /* Reduced padding for mobile */
             border-radius: 16px;
             box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
             text-align: center;
-            width: 90%;
-            max-width: 500px;
+            width: 95%; /* Occupy more width on smaller screens */
+            max-width: 360px; /* Max width typical for smartphones */
             direction: rtl;
             border: 1px solid rgba(255, 255, 255, 0.3); /* Lighter border */
             z-index: 1; /* Bring container above the overlay */
+            box-sizing: border-box; /* Include padding in width */
+        }
+
+        @media (min-width: 480px) { /* Adjust for slightly larger phones/small tablets */
+            .container {
+                max-width: 450px;
+                padding: 25px;
+            }
+        }
+
+        @media (min-width: 768px) { /* Adjust for tablets and desktops */
+            .container {
+                max-width: 550px;
+                padding: 30px;
+            }
         }
 
         .app-title {
             font-family: 'Cinzel Decorative', cursive; /* Keep Cinzel Decorative for title */
             color: var(--sandy-yellow); /* Gold-like for title */
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-            font-size: 2.5em;
+            font-size: 2em; /* Adjusted for mobile */
             margin-bottom: 20px;
             letter-spacing: 2px;
             background: linear-gradient(to right, #d4af37, #f9d423, #d4af37);
@@ -88,35 +104,54 @@
             background-clip: text;
             color: transparent;
         }
+        @media (min-width: 768px) {
+            .app-title {
+                font-size: 2.5em; /* Original size for larger screens */
+            }
+        }
 
         h2 {
             color: var(--accent-light); /* Lighter blue accent */
-            margin-top: 30px;
+            margin-top: 25px; /* Adjusted margin */
             margin-bottom: 15px;
-            font-size: 1.6em;
+            font-size: 1.4em; /* Adjusted for mobile */
             font-family: 'Cinzel', serif; /* Keep Cinzel for headings */
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
         }
+        @media (min-width: 768px) {
+            h2 {
+                font-size: 1.6em; /* Original size for larger screens */
+            }
+        }
 
         h2 .icon {
-            width: 28px;
-            height: 28px;
+            width: 24px; /* Adjusted for mobile */
+            height: 24px; /* Adjusted for mobile */
             filter: drop-shadow(0 0 3px rgba(0,0,0,0.3));
+        }
+        @media (min-width: 768px) {
+            h2 .icon {
+                width: 28px; /* Original size for larger screens */
+                height: 28px; /* Original size for larger screens */
+            }
         }
 
         /* Modern Timer Section */
         .timer-section {
             background-color: rgba(var(--light-blue-rgb), 0.2); /* Lighter, more transparent */
-            padding: 25px;
+            padding: 20px; /* Adjusted padding */
             border-radius: 12px;
-            margin-bottom: 30px;
+            margin-bottom: 25px; /* Adjusted margin */
             border: 1px solid rgba(var(--light-blue-rgb), 0.5); /* Lighter border */
             position: relative;
             overflow: hidden;
             color: var(--text-dark); /* Darker text for this section's background */
+            display: flex; /* Use flexbox for alignment of timer and button */
+            flex-direction: column; /* Stack timer elements vertically */
+            align-items: center; /* Center items horizontally */
         }
 
         .timer-section::before {
@@ -131,11 +166,11 @@
         }
 
         .timer-settings {
-            margin-top: 25px; /* Adjusted margin */
-            margin-bottom: 25px;
+            margin-top: 20px; /* Adjusted margin */
+            margin-bottom: 20px; /* Adjusted margin */
             display: flex;
             justify-content: center;
-            gap: 25px;
+            gap: 15px; /* Adjusted gap */
             flex-wrap: wrap;
             z-index: 1;
             position: relative;
@@ -144,27 +179,27 @@
         .timer-setting-item {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px; /* Adjusted gap */
             background: rgba(var(--mid-green-rgb), 0.3); /* Greenish tint for settings */
-            padding: 8px 15px;
+            padding: 6px 12px; /* Adjusted padding */
             border-radius: 8px;
             border: 1px solid rgba(var(--mid-green-rgb), 0.5); /* Lighter border */
             color: var(--text-dark); /* Darker text for this section */
         }
 
         .timer-setting-item label {
-            font-size: 1.1em;
+            font-size: 1em; /* Adjusted for mobile */
             color: var(--text-dark); /* Use dark text against light background */
             font-family: 'Cinzel', serif; /* Apply Cinzel */
             white-space: nowrap;
         }
 
         .timer-setting-item input[type="number"] {
-            width: 60px;
-            padding: 8px;
+            width: 50px; /* Adjusted for mobile */
+            padding: 6px; /* Adjusted padding */
             border: 1px solid rgba(var(--mid-green-rgb), 0.7);
             border-radius: 6px;
-            font-size: 1em;
+            font-size: 0.9em; /* Adjusted for mobile */
             text-align: center;
             background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent white */
             color: var(--text-dark);
@@ -172,20 +207,25 @@
         }
 
         .timer-display {
-            font-size: 4.5em;
+            font-size: 4em; /* Adjusted for mobile */
             font-weight: bold;
             color: var(--accent-color); /* Deep blue for timer */
-            margin-bottom: 25px;
+            margin-bottom: 20px; /* Adjusted margin */
             font-family: 'Cinzel', serif; /* Apply Cinzel */
             text-shadow: 0 0 10px rgba(var(--deep-blue-rgb), 0.5);
             position: relative;
             z-index: 1;
         }
+        @media (min-width: 768px) {
+            .timer-display {
+                font-size: 4.5em; /* Original size for larger screens */
+            }
+        }
 
         .timer-controls {
             display: flex;
             justify-content: center;
-            gap: 15px;
+            gap: 10px; /* Adjusted gap */
             flex-wrap: wrap;
             z-index: 1;
             position: relative;
@@ -195,14 +235,21 @@
             background-color: var(--deep-blue); /* Deep blue for buttons */
             color: var(--text-light);
             border: none;
-            padding: 12px 25px;
+            padding: 10px 20px; /* Adjusted padding */
             border-radius: 8px;
             cursor: pointer;
-            font-size: 1.1em;
+            font-size: 1em; /* Adjusted for mobile */
             transition: all 0.3s ease;
             font-family: 'Cinzel', serif; /* Apply Cinzel */
-            min-width: 120px;
+            min-width: 100px; /* Adjusted for mobile */
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+        @media (min-width: 768px) {
+            .timer-controls button {
+                padding: 12px 25px; /* Original size for larger screens */
+                font-size: 1.1em; /* Original size for larger screens */
+                min-width: 120px; /* Original size for larger screens */
+            }
         }
 
         .timer-controls button:hover {
@@ -217,46 +264,63 @@
         }
 
         .timer-status {
-            margin-top: 20px;
-            font-size: 1.3em;
+            margin-top: 15px; /* Adjusted margin */
+            font-size: 1.1em; /* Adjusted for mobile */
             color: var(--dark-contrast); /* Darker text for status */
             font-weight: bold;
             font-family: 'Cinzel', serif; /* Apply Cinzel */
             position: relative;
             z-index: 1;
         }
+        @media (min-width: 768px) {
+            .timer-status {
+                font-size: 1.3em; /* Original size for larger screens */
+            }
+        }
 
         /* Tasks Section */
         .tasks-section {
-            margin-bottom: 30px; /* Add margin below tasks section */
+            margin-bottom: 25px; /* Adjusted margin below tasks section */
         }
         .task-input {
             display: flex;
-            margin-bottom: 20px;
-            gap: 10px;
+            margin-bottom: 15px; /* Adjusted margin */
+            gap: 8px; /* Adjusted gap */
         }
 
         .task-input input[type="text"] {
             flex-grow: 1;
-            padding: 12px;
+            padding: 10px; /* Adjusted padding */
             border: 1px solid rgba(var(--sandy-yellow-rgb), 0.7);
             border-radius: 8px;
-            font-size: 1em;
+            font-size: 0.9em; /* Adjusted for mobile */
             background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent white */
             color: var(--text-dark);
             font-family: 'Cinzel', serif; /* Apply Cinzel */
+        }
+        @media (min-width: 768px) {
+            .task-input input[type="text"] {
+                padding: 12px; /* Original size for larger screens */
+                font-size: 1em; /* Original size for larger screens */
+            }
         }
 
         .task-input button {
             background-color: var(--sandy-yellow); /* Sandy yellow for add task button */
             color: var(--text-dark); /* Dark text on light button */
             border: none;
-            padding: 12px 20px;
+            padding: 10px 15px; /* Adjusted padding */
             border-radius: 8px;
             cursor: pointer;
-            font-size: 1em;
+            font-size: 0.9em; /* Adjusted for mobile */
             transition: all 0.3s ease;
             font-family: 'Cinzel', serif; /* Apply Cinzel */
+        }
+        @media (min-width: 768px) {
+            .task-input button {
+                padding: 12px 20px; /* Original size for larger screens */
+                font-size: 1em; /* Original size for larger screens */
+            }
         }
 
         .task-input button:hover {
@@ -267,15 +331,15 @@
         #taskList {
             list-style: none;
             padding: 0;
-            max-height: 200px; /* Limit height for scroll if many tasks */
+            max-height: 180px; /* Adjusted height for scroll if many tasks */
             overflow-y: auto; /* Enable scrolling */
             color: var(--text-dark); /* Darker text for task list */
         }
 
         #taskList li {
             background-color: rgba(var(--mid-green-rgb), 0.1); /* Very light green for task items */
-            padding: 15px;
-            margin-bottom: 10px;
+            padding: 12px; /* Adjusted padding */
+            margin-bottom: 8px; /* Adjusted margin */
             border-radius: 8px;
             display: flex;
             justify-content: space-between;
@@ -284,6 +348,14 @@
             transition: all 0.3s ease;
             border: 1px solid rgba(var(--mid-green-rgb), 0.3); /* Lighter border */
             font-family: 'Cinzel', serif; /* Apply Cinzel */
+            font-size: 0.95em; /* Adjusted for mobile */
+        }
+        @media (min-width: 768px) {
+            #taskList li {
+                padding: 15px; /* Original size for larger screens */
+                margin-bottom: 10px; /* Original size for larger screens */
+                font-size: 1.1em; /* Original size for larger screens */
+            }
         }
 
         #taskList li:hover {
@@ -301,25 +373,30 @@
         #taskList li span.task-text {
             flex-grow: 1;
             text-align: right;
-            padding-left: 10px;
-            font-size: 1.1em;
+            padding-left: 8px; /* Adjusted padding */
         }
 
         #taskList li .task-buttons {
             display: flex;
-            gap: 8px;
+            gap: 6px; /* Adjusted gap */
         }
 
         #taskList li .task-buttons button {
             background-color: var(--deep-blue); /* Deep blue for task action buttons */
             color: var(--text-light);
             border: none;
-            padding: 8px 12px;
+            padding: 6px 10px; /* Adjusted padding */
             border-radius: 5px;
             cursor: pointer;
-            font-size: 0.9em;
+            font-size: 0.8em; /* Adjusted for mobile */
             transition: all 0.3s ease;
             font-family: 'Cinzel', serif; /* Apply Cinzel */
+        }
+        @media (min-width: 768px) {
+            #taskList li .task-buttons button {
+                padding: 8px 12px; /* Original size for larger screens */
+                font-size: 0.9em; /* Original size for larger screens */
+            }
         }
 
         #taskList li .task-buttons button:hover {
@@ -337,19 +414,26 @@
 
         /* Footer Styles - now inside the container */
         .footer {
-            margin-top: 30px;
+            margin-top: 25px; /* Adjusted margin */
             text-align: center;
             font-family: 'Cinzel Decorative', cursive; /* Keep Cinzel Decorative for footer */
             color: var(--dark-contrast); /* Darker text for footer */
-            font-size: 0.9em;
+            font-size: 0.8em; /* Adjusted for mobile */
             direction: ltr;
             width: 100%;
-            padding: 20px 0 0; /* Adjusted padding */
+            padding: 15px 0 0; /* Adjusted padding */
             border-top: 1px solid rgba(var(--sandy-yellow-rgb), 0.5); /* Separator line */
+        }
+        @media (min-width: 768px) {
+            .footer {
+                margin-top: 30px; /* Original size for larger screens */
+                font-size: 0.9em; /* Original size for larger screens */
+                padding: 20px 0 0; /* Original size for larger screens */
+            }
         }
 
         .footer .copyright {
-            margin-bottom: 10px;
+            margin-bottom: 8px; /* Adjusted margin */
             letter-spacing: 1px;
             font-size: 1.3em; /* Increased by 30% (0.9 * 1.3 = 1.17em, rounded to 1.3 for simplicity) */
         }
@@ -374,10 +458,16 @@
         }
 
         .footer .whatsapp-icon {
-            width: 20px;
-            height: 20px;
+            width: 18px; /* Adjusted for mobile */
+            height: 18px; /* Adjusted for mobile */
             vertical-align: middle;
             filter: drop-shadow(0 0 2px rgba(37, 211, 102, 0.7));
+        }
+        @media (min-width: 768px) {
+            .footer .whatsapp-icon {
+                width: 20px; /* Original size for larger screens */
+                height: 20px; /* Original size for larger screens */
+            }
         }
 
         .nagiz-z {
@@ -411,6 +501,58 @@
             transform-origin: center;
             transform: rotate(-90deg);
             transition: stroke-dashoffset 1s linear;
+        }
+
+        /* Special Offer Button */
+        .special-offer-button-wrapper {
+            position: relative;
+            width: 100%;
+            display: flex;
+            justify-content: center; /* Center the button */
+            margin-top: 15px;
+            z-index: 2;
+            box-sizing: border-box;
+        }
+        .special-offer-button {
+            display: block; /* Always visible now, controlled by JS */
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: none;
+            color: white;
+            font-family: 'Cinzel', serif;
+            font-size: 1.1em;
+            cursor: pointer;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            min-width: 140px;
+            text-align: center;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        /* Initial Green State */
+        .special-offer-button.green-active {
+            background-color: #32CD32; /* LimeGreen */
+            animation: none; /* No gradient animation when green */
+            background-image: none;
+        }
+
+        /* Red/Orange/Yellow Gradient State */
+        .special-offer-button.red-gradient {
+            background: linear-gradient(90deg, #FF4500, #FF8C00, #FFD700, #FF8C00, #FF4500);
+            background-size: 400% 100%; /* Make gradient wider for animation */
+            animation: gradient-animation 4s linear infinite;
+        }
+
+        @keyframes gradient-animation {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+
+        .special-offer-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
         }
     </style>
 </head>
@@ -457,6 +599,12 @@
                     <span>دقيقة</span>
                 </div>
             </div>
+            
+            <div class="special-offer-button-wrapper">
+                <button id="specialOfferButton" class="special-offer-button">
+                    <span></span>
+                </button>
+            </div>
         </div>
 
         <div class="footer">
@@ -483,12 +631,48 @@
             const workTimeInput = document.getElementById('workTimeInput');
             const breakTimeInput = document.getElementById('breakTimeInput');
             const progressCircle = document.querySelector('.timer-progress-circle');
+            const specialOfferButton = document.getElementById('specialOfferButton');
+            const specialOfferButtonText = specialOfferButton.querySelector('span');
 
             // IndexedDB variables
             let db;
             const DB_NAME = 'PomodoroTasksDB';
             const DB_VERSION = 1;
             const STORE_NAME = 'tasks';
+
+            // Fixed start date for the logic (July 11, 2025)
+            const referenceDate = new Date('2025-07-11T00:00:00Z'); 
+            const daysUntilRed = 28; // 28 days from referenceDate for button to turn red
+
+            function updateSpecialOfferButton() {
+                const now = new Date();
+                
+                // Calculate days passed since referenceDate
+                const diffTime = now.getTime() - referenceDate.getTime();
+                const daysPassed = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+                // Date when the button should turn red
+                const redActivationDate = new Date(referenceDate);
+                redActivationDate.setDate(referenceDate.getDate() + daysUntilRed);
+
+                specialOfferButton.style.display = 'block'; // Always visible
+
+                if (now < redActivationDate) {
+                    // It's still in the green phase
+                    specialOfferButtonText.textContent = `${daysPassed} على التحديث`;
+                    specialOfferButton.classList.add('green-active');
+                    specialOfferButton.classList.remove('red-gradient');
+                } else {
+                    // It's after the 28 days, turn red
+                    specialOfferButtonText.textContent = 'انتهى العرض!'; // Text when red
+                    specialOfferButton.classList.remove('green-active');
+                    specialOfferButton.classList.add('red-gradient');
+                }
+            }
+            
+            // Update button every second
+            setInterval(updateSpecialOfferButton, 1000); 
+
 
             // Open (or create) the IndexedDB database
             function openDB() {
@@ -747,6 +931,7 @@
 
             async function loadAndRenderTasks() {
                 tasks = await loadTasksFromDB();
+                tasks.sort((a, b) => a.timestamp - b.timestamp); // Sort by timestamp
                 renderTasks();
             }
 
@@ -758,6 +943,7 @@
             addTaskButton.addEventListener('click', addTask);
             newTaskInput.addEventListener('keypress', (e) => {
                 if (e.key === 'Enter') {
+                    e.preventDefault(); // Prevent default form submission if any
                     addTask();
                 }
             });
@@ -787,12 +973,13 @@
                     breakTimeInput.value = BREAK_TIME;
                 }
             });
-
+            
             // --- Initialization on Load ---
             async function init() {
                 await openDB(); // Open database first
                 await loadAndRenderTasks(); // Then load tasks
                 setInitialTime();
+                updateSpecialOfferButton(); // Initial check for button state
             }
             init();
         });
