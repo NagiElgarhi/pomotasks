@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lord of the Tasks - مؤقت بومودورو لتنفيذ المهام</title>
+    <title>Lord of the Tasks  </title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@400;700&display=swap');
         
         :root {
             /* Updated Color Palette for a youthful, summer feel */
             --light-blue: #ADD8E6; /* Light Blue for sky/sea */
-            --mid-green: #90EE90; /* Light Green for trees */
+            --mid-green: #; /* Lig90EE90ht Green for trees */
             --sandy-yellow: #F0E68C; /* Sandy Yellow for warmth/sun */
             --deep-blue: #4682B4; /* Steel Blue for accents/deep sea */
             --dark-contrast: #2C3E50; /* Darker blue-grey for text contrast */
@@ -94,15 +94,15 @@
 
         .app-title {
             font-family: 'Cinzel Decorative', cursive; /* Keep Cinzel Decorative for title */
-            color: var(--sandy-yellow); /* Gold-like for title */
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-            font-size: 2em; /* Adjusted for mobile */
-            margin-bottom: 20px;
-            letter-spacing: 2px;
+            /* Original gradient for title */
             background: linear-gradient(to right, #d4af37, #f9d423, #d4af37);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            font-size: 2em; /* Adjusted for mobile */
+            margin-bottom: 20px;
+            letter-spacing: 2px;
         }
         @media (min-width: 768px) {
             .app-title {
@@ -209,10 +209,14 @@
         .timer-display {
             font-size: 4em; /* Adjusted for mobile */
             font-weight: bold;
-            color: var(--accent-color); /* Deep blue for timer */
+            /* Apply the same gradient as app-title */
+            background: linear-gradient(to right, #d4af37, #f9d423, #d4af37);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent; /* Make text transparent to show gradient */
             margin-bottom: 20px; /* Adjusted margin */
             font-family: 'Cinzel', serif; /* Apply Cinzel */
-            text-shadow: 0 0 10px rgba(var(--deep-blue-rgb), 0.5);
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Darker shadow for contrast */
             position: relative;
             z-index: 1;
         }
@@ -571,7 +575,8 @@
                 <button id="addTaskButton">إضافة مهمة</button>
             </div>
             <ul id="taskList">
-                </ul>
+                <!-- Tasks will be rendered here -->
+            </ul>
         </div>
 
         <div class="timer-section">
@@ -600,6 +605,7 @@
                 </div>
             </div>
             
+            <!-- Special Offer Button Wrapper - centered -->
             <div class="special-offer-button-wrapper">
                 <button id="specialOfferButton" class="special-offer-button">
                     <span></span>
@@ -642,28 +648,29 @@
 
             // Fixed start date for the logic (July 11, 2025)
             const referenceDate = new Date('2025-07-11T00:00:00Z'); 
-            const daysUntilRed = 28; // 28 days from referenceDate for button to turn red
+            // Total duration for the countdown in days
+            const totalCountdownDays = 29; 
 
             function updateSpecialOfferButton() {
                 const now = new Date();
                 
-                // Calculate days passed since referenceDate
-                const diffTime = now.getTime() - referenceDate.getTime();
-                const daysPassed = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+                // Calculate the target end date for the countdown
+                const targetEndDate = new Date(referenceDate);
+                targetEndDate.setDate(referenceDate.getDate() + totalCountdownDays);
 
-                // Date when the button should turn red
-                const redActivationDate = new Date(referenceDate);
-                redActivationDate.setDate(referenceDate.getDate() + daysUntilRed);
+                // Calculate days left until the target end date
+                const timeLeftMs = targetEndDate.getTime() - now.getTime();
+                const daysLeft = Math.ceil(timeLeftMs / (1000 * 60 * 60 * 24)); // Use ceil to keep 1 day even if less than 24 hours
 
                 specialOfferButton.style.display = 'block'; // Always visible
 
-                if (now < redActivationDate) {
-                    // It's still in the green phase
-                    specialOfferButtonText.textContent = `${daysPassed} على التحديث`;
+                if (daysLeft > 0) {
+                    // It's still in the green countdown phase
+                    specialOfferButtonText.textContent = `${daysLeft} على التحديث`;
                     specialOfferButton.classList.add('green-active');
                     specialOfferButton.classList.remove('red-gradient');
                 } else {
-                    // It's after the 28 days, turn red
+                    // It's after the countdown, turn red
                     specialOfferButtonText.textContent = 'انتهى العرض!'; // Text when red
                     specialOfferButton.classList.remove('green-active');
                     specialOfferButton.classList.add('red-gradient');
